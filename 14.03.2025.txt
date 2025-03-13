@@ -1,0 +1,4 @@
+logowanie (zrobić mały panel administratora do dodawania użytkowników) + formularz:
+* wybór zmiany 
+* zostawienie raportu 
+* data i godzina automatycznie dla naszego czasu ale można zmienić
