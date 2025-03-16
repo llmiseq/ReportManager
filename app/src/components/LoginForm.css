@@ -1,0 +1,235 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #d3cce3, #e9e4f0);
+    position: relative;
+  }
+  
+  .App {
+    text-align: center;
+  }
+  
+  .loading-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .loading-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #ccc;
+    animation: bounce 1.5s infinite;
+  }
+  
+  .dot:nth-child(1) {
+    animation-delay: 0s;
+  }
+  
+  .dot:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+  
+  .dot:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+      background-color: #ccc;
+    }
+    50% {
+      transform: translateY(-10px);
+      background-color: #fff;
+    }
+  }
+  
+  h2 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #444;
+  }
+  
+  .dark .login-container {
+    background: #2c2c2c;
+    color: #fff;
+  }
+  
+  .light .login-container {
+    background: #f9f9f9;
+    color: #000;
+  }
+  
+  .login-container {
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .login-form .input-group {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  
+  .login-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .login-form input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #1e1e1e;
+    color: #fff;
+  }
+  
+  .light .login-form input {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .login-form input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .login-button {
+    background: #ffeb3b;
+    color: #000;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: background 0.3s, transform 0.3s;
+  }
+  
+  .login-button:hover {
+    background: #ffc107;
+    transform: scale(1.05);
+  }
+  
+  .login-button .loader {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #444;
+    width: 16px;
+    height: 16px;
+    animation: spin 2s linear infinite; /* Wydłużenie animacji o 1 sekundę */
+    display: inline-block;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .reset-password {
+    display: block;
+    text-align: right;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .reset-password:hover {
+    color: #0056b3;
+  }
+  
+  .error-popup {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+    margin-top: 1rem;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .theme-switch {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .theme-switch label {
+    margin-right: 0.5rem;
+  }
+  
+  .switch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .switch .slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    border-radius: 50%;
+    transition: left 0.3s;
+  }
+  
+  .dark .switch {
+    background-color: #444;
+  }
+  
+  .dark .switch .slider {
+    left: 32px;
+  }
+  
