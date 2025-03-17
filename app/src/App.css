@@ -1,17 +1,19 @@
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  
   height: 100vh;
   margin: 0;
   font-family: 'Arial', sans-serif;
   background: linear-gradient(135deg, #d3cce3, #e9e4f0);
   position: relative;
+  
 }
 
 .App {
   text-align: center;
+  
 }
+
+
 
 .loading-screen {
   display: flex;
@@ -76,6 +78,7 @@ h2 {
 }
 
 .login-container {
+  margin: auto;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

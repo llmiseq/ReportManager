@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
-import AdminPage from './components/AdminPage';
-import UserPage from './components/UserPage';
 import LoginForm from './components/LoginForm';
+import ReferentPage from './components/ReferentPage';
+import UserPage from './components/UserPage';
+import AdminPage from './components/AdminPage';
+import SuperAdminPage from './components/SuperAdminPage';
 
 function App() {
   return (
@@ -41,8 +43,10 @@ function AppContent() {
       ) : (
         <>
           <Routes>
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/referent" element={<ReferentPage />} />
             <Route path="/user" element={<UserPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/sadmin" element={<SuperAdminPage />} />
             <Route path="/" element={
               <>
                 <LoginForm />
