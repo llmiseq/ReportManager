@@ -7,46 +7,50 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [status, setStatus] = useState(null);
-    const [administrator, setAdministrator] = useState(null);
     const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
-        setError(null);
-        setStatus(null);
-        setAdministrator(null);
-
-        if (!username || !password) {
-            setError('Proszę wypełnić formularz.');
-            return;
-        }
-
+        setError(null); // Resetowanie błędów
         setIsLoading(true);
-
+    
+        // Wysyłanie danych logowania do backendu
         axios.post('http://localhost/api.php', { username: username.trim(), password: password.trim() })
             .then(response => {
                 console.log('Odpowiedź z serwera:', response.data);
                 setIsLoading(false);
-                setStatus(response.data.status);
-                setAdministrator(response.data.administrator);
+    
                 if (response.data.status === 'success') {
-                    console.log('Logowanie zakończone sukcesem!');
-                    if (response.data.administrator === 1) {
+                    console.log('Logowanie zakończone sukcesem! Zapisuję sessionId:', response.data.sessionId);
+    
+                    // Zapisz sessionId i rolę w localStorage
+                    localStorage.setItem('sessionId', response.data.sessionId);
+                    localStorage.setItem('userRole', response.data.role);
+    
+                    // Przekierowanie na podstawie roli użytkownika
+                    const role = response.data.role;
+                    if (role === 'superAdministrator') {
+                        navigate('/sadmin');
+                    } else if (role === 'administrator') {
                         navigate('/admin');
+                    } else if (role === 'auditor') {
+                        navigate('/referent');
                     } else {
                         navigate('/user');
                     }
                 } else {
-                    setError(response.data.message);
+                    // Obsługa błędów logowania
+                    console.error('Błąd podczas logowania:', response.data.message);
+                    setError(response.data.message || 'Błąd logowania. Spróbuj ponownie.');
                 }
             })
             .catch(error => {
-                console.log('Błąd logowania:', error.response ? error.response.data : error.message);
+                console.error('Błąd logowania:', error.response ? error.response.data : error.message);
                 setIsLoading(false);
-                setError(error.response ? error.response.data.message : 'Wystąpił błąd podczas logowania. Spróbuj ponownie.');
+                setError('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
             });
     };
+    
 
     return (
         <div className="login-container">
@@ -72,7 +76,9 @@ const LoginForm = () => {
                         required
                     />
                 </div>
-                <p type="button" className="reset-password" onClick={() => alert('Resetowanie hasła...')}>Resetuj hasło</p>
+                <p type="button" className="reset-password" onClick={() => alert('Resetowanie hasła...')}>
+                    Resetuj hasło
+                </p>
                 <button type="submit" className="login-button">
                     {isLoading ? <span className="loader"></span> : 'Zaloguj'}
                 </button>

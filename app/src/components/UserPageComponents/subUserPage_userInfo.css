@@ -1,0 +1,25 @@
+.user-info-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+
+.user-info-centered h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.user-info-centered p {
+  margin: 5px 0;
+  font-size: 1.1rem;
+}
+
+.user-info-centered strong {
+  color: #000;
+}

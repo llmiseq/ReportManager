@@ -1,0 +1,147 @@
+/* Kontener dla zarządzania urządzeniami */
+.machine-manager-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/* Nagłówki */
+.machine-manager-container h1, .machine-manager-container h2 {
+    color: #007BFF;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Sekcja formularza */
+.machine-manager-container form {
+    margin-bottom: 30px;
+}
+
+/* Etykiety formularza */
+.machine-manager-container label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Pole tekstowe */
+.machine-manager-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.2s ease-in-out;
+}
+
+/* Zmiana koloru pola na focus */
+.machine-manager-container input[type="text"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Przycisk "Dodaj" */
+.machine-manager-container button {
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover efekt przycisku */
+.machine-manager-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Lista urządzeń */
+.machine-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.machine-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover efekt listy */
+.machine-list li:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Przyciski usuwania - stała szerokość */
+.machine-list button {
+    background-color: #FF4136;
+    color: white;
+    padding: 6px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 12px; /* Zmniejszono czcionkę */
+    width: 50px; /* Ustawiono stałą szerokość */
+    height: 30px; /* Ustawiono stałą wysokość */
+    text-align: center;
+    line-height: 18px; /* Wyrównanie tekstu wewnątrz przycisku */
+}
+
+/* Hover efekt usuwania */
+.machine-list button:hover {
+    background-color: #CC3228;
+}
+
+/* Komunikaty o błędach */
+.machine-manager-container .error {
+    color: #FF4136;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Komunikaty sukcesu */
+.machine-manager-container .success {
+    color: #28a745;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .machine-manager-container {
+        padding: 15px;
+    }
+
+    .machine-manager-container h1, .machine-manager-container h2 {
+        font-size: 18px;
+    }
+
+    .machine-manager-container input[type="text"] {
+        font-size: 13px;
+    }
+
+    .machine-manager-container button, .machine-list button {
+        font-size: 12px;
+    }
+}

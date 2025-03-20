@@ -1,0 +1,80 @@
+.report-adder-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    max-height: 90vh;
+    box-sizing: border-box;
+  }
+  
+  .report-adder-container div {
+    margin-bottom: 15px;
+    width: 100%; /* Zmieniono szerokość na 100% */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Wyrównanie do lewej */
+  }
+  
+  .report-adder-container label {
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left; /* Wyrównanie tekstu do lewej */
+    width: 100%; /* Dopasowanie szerokości etykiety do kontenera */
+  }
+  
+  .report-adder-container input,
+  .report-adder-container select,
+  .report-adder-container textarea {
+    width: 100%; /* Pola zajmują pełną szerokość kontenera */
+    max-width: 500px; /* Maksymalna szerokość dla czytelności */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+  
+  .report-adder-container textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .report-adder-container button {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    align-self: center; /* Wyśrodkowanie przycisku */
+  }
+  
+  .report-adder-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .error {
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .success {
+    color: #008000;
+    font-weight: bold;
+    text-align: center;
+  }
+  

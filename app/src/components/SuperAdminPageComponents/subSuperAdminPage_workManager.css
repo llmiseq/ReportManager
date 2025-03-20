@@ -1,0 +1,75 @@
+.work-manager-container {
+    max-width: 800px; /* Maksymalna szerokość kontenera */
+    margin: 0 auto; /* Wyśrodkowanie */
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    max-height: 90vh; /* Maksymalna wysokość listy */
+    overflow: auto; /* Dodanie paska przewijania */
+  }
+  
+  form {
+    margin-bottom: 30px;
+  }
+  
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  input, button {
+    width: 100%; /* Dopasowanie do szerokości kontenera */
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  
+  button {
+    background-color: #4CAF50; /* Kolor przycisku */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #45a049; /* Efekt po najechaniu */
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .success {
+    color: green;
+  }
+  
+  ul {
+    list-style-type: none; /* Usuń wypunktowanie */
+    padding: 0;
+    border: 1px solid #ccc; /* Obramowanie */
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  li {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Oddzielenie elementów listy */
+  }
+  
+  li:last-child {
+    border-bottom: none; /* Usuń linię dla ostatniego elementu */
+  }
+  
+  button {
+    width: auto; /* Dopasuj szerokość przycisku */
+  }
+  
+  li button {
+    margin-top: 10px;
+    background-color: #f44336; /* Czerwony kolor dla przycisku "Usuń" */
+  }
+  
+  li button:hover {
+    background-color: #d32f2f; /* Ciemniejszy czerwony po najechaniu */
+  }
+  

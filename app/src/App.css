@@ -14,6 +14,97 @@ body {
 }
 
 
+/* Kontener formularza */
+.report-adder-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Nagłówek */
+  .report-adder-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #444;
+  }
+  
+  /* Etykiety i pola formularza */
+  .report-adder-container label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .report-adder-container input,
+  .report-adder-container select,
+  .report-adder-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .report-adder-container input:focus,
+  .report-adder-container select:focus,
+  .report-adder-container textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Przycisk */
+  .report-adder-container button {
+    background: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .report-adder-container button:hover {
+    background: #0056b3;
+  }
+  
+  /* Komunikat o błędzie */
+  .report-adder-container .error {
+    color: #ff0000;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Komunikat sukcesu */
+  .report-adder-container .success {
+    color: #008000;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Treść raportu */
+  .report-adder-container textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
 
 .loading-screen {
   display: flex;

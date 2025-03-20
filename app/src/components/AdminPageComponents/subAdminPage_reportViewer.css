@@ -1,0 +1,109 @@
+/* Kontener dla całej tabeli */
+.reports-viewer-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    max-height: 90vh;
+    box-sizing: border-box;
+  }
+  
+  /* Nagłówek tabeli */
+  table.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    table-layout: fixed; /* Stała szerokość kolumn */
+  }
+  
+  /* Nagłówki */
+  thead {
+    background-color: #007BFF;
+    color: white;
+  }
+  
+  th {
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    word-wrap: break-word; /* Dostosowanie tekstu w nagłówkach */
+    white-space: normal; /* Zezwolenie na łamanie linii */
+  }
+  
+  /* Komórki tabeli */
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word; /* Automatyczne zawijanie tekstu */
+    white-space: normal; /* Łamanie tekstu na kolejne linie */
+  }
+  
+  /* Wiersze */
+  tbody .main-row {
+    transition: background-color 0.2s ease;
+  }
+  
+  tbody .main-row:hover {
+    background-color: #e6f7ff; /* Lekki efekt podświetlenia */
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Zapewnienie elastycznego tekstu dla rozwiniętych wierszy */
+  .expanded-row td {
+    white-space: normal; /* Zezwolenie na zawijanie tekstu */
+  }
+  
+  .overflow-cell {
+    max-width: 200px; /* Ograniczenie szerokości kolumny */
+  }
+  
+  .expanded .overflow-cell {
+    max-width: none;
+    white-space: normal;
+  }
+  
+  /* Styl dla ekranów mobilnych */
+  @media (max-width: 768px) {
+    th,
+    td {
+      font-size: 12px;
+      padding: 6px;
+    }
+  
+    table.styled-table {
+      font-size: 12px; /* Zmniejszenie czcionki dla mobilności */
+    }
+  }
+  
+  .filter-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  
+  .filter-container button {
+    background-color: #FF4136; /* Czerwony kolor dla czyszczenia */
+    padding: 8px 16px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .filter-container button:hover {
+    background-color: #CC3228; /* Ciemniejszy czerwony */
+  }
+  
+  .filter-container button:nth-child(3) {
+    background-color: #007BFF;
+  }
+  
+  .filter-container button:nth-child(3):hover {
+    background-color: #0056b3; /* Ciemniejszy odcień na hover */
+  }
+  

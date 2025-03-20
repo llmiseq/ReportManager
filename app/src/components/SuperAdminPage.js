@@ -1,153 +1,121 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './SuperAdminPage.css';
+import SubSuperAdminPageLogout from './SuperAdminPageComponents/subSuperAdminPage_logout';
+import SubSuperAdminPageAccountManager from './SuperAdminPageComponents/subSuperAdminPage_accountManager';
+import SubSuperAdminPageUserInfo from './SuperAdminPageComponents/subSuperAdminPage_userInfo';
+import SubSuperAdminPageMachineManager from './SuperAdminPageComponents/subSuperAdminPage_machineManager';
+import SubSuperAdminPageReportManager from './SuperAdminPageComponents/subSuperAdminPage_reportManager';
+import SubSuperAdminPageUserManager from './SuperAdminPageComponents/subSuperAdminPage_userManager';
+import SubSuperAdminPageWorkManager from './SuperAdminPageComponents/subSuperAdminPage_workManager';
+import SubSuperAdminPageExport from './SuperAdminPageComponents/subSuperAdminPage_export'; // Import komponentu Eksportu
 
 function SuperAdminPage() {
+  const [selectedOption, setSelectedOption] = useState('');
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+  const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+  const [showUserInfo, setShowUserInfo] = useState(false);
+  const [showUserManager, setShowUserManager] = useState(false);
+  const [showMachineManager, setShowMachineManager] = useState(false);
+  const [showReportManager, setShowReportManager] = useState(false);
+  const [showWorkManager, setShowWorkManager] = useState(false);
+  const [showExportData, setShowExportData] = useState(false); // Dodano stan dla eksportu danych
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Flaga autoryzacji
+  const navigate = useNavigate();
 
-    const [selectedOption, setSelectedOption] = useState('');
-      const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
-      const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
-      const [formData, setFormData] = useState({
-        login: '',
-        oldPassword: '',
-        newPassword: '',
-        confirmNewPassword: '',
-      });
-      const [errorMessage, setErrorMessage] = useState('');
-      const [successMessage, setSuccessMessage] = useState('');
-    
-      const handleOptionClick = (option) => {
-        setSelectedOption(option);
-        setShowLogoutConfirmation(option === 'Wyloguj');
-        setShowChangePasswordForm(option === 'Zarządzanie kontem');
-        setErrorMessage('');
-        setSuccessMessage('');
-      };
-    
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
-      };
+  useEffect(() => {
+    console.log('Rozpoczęcie weryfikacji sesji i ról...');
+    const sessionId = localStorage.getItem('sessionId');
+    const role = localStorage.getItem('userRole'); // Pobierz rolę użytkownika
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrorMessage('');
-        setSuccessMessage('');
-    
-        if (formData.newPassword !== formData.confirmNewPassword) {
-          setErrorMessage('Nowe hasła nie są zgodne!');
-          return;
-        }
-    
-        try {
-          const response = await fetch('http://localhost/change_password.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              username: formData.login,
-              oldPassword: formData.oldPassword,
-              newPassword: formData.newPassword,
-            }),
-          });
-    
-          const result = await response.json();
-          console.log('Logi serwera:', result.log);
-          if (response.ok && result.status === 'success') {
-            setSuccessMessage('Hasło zostało pomyślnie zmienione!');
-            setFormData({
-              login: '',
-              oldPassword: '',
-              newPassword: '',
-              confirmNewPassword: '',
-            });
-          } else {
-            setErrorMessage(result.message || 'Wystąpił błąd podczas zmiany hasła.');
-          }
-        } catch (error) {
-          console.error('Błąd połączenia z serwerem:', error);
-          setErrorMessage('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
-        }
-      };
+    console.log('sessionId z localStorage:', sessionId);
+    console.log('Rola użytkownika z localStorage:', role);
 
-    return (
-        <div className="page-container light">
-          <nav className="menu-sidebar">
-            <ul className="menu-list">
-              <li onClick={() => handleOptionClick('Informacje o użytkowniku')}>Informacje o użytkowniku</li>
-              <li onClick={() => handleOptionClick('Zarządzanie uzytkownikami')}>Zarządzanie użytkownikami</li>
-              <li onClick={() => handleOptionClick('Zarządzanie robotami')}>Zarządzanie robotami</li>
-              <li onClick={() => handleOptionClick('Zarządzanie urządzeń')}>Zarządzanie urządzeń</li>
-              <li onClick={() => handleOptionClick('Zarządzanie raportami')}>Zarządzanie raportami</li>
-              <li onClick={() => handleOptionClick('Zarządzanie kontem')}>Zarządzanie kontem</li>
-              <li className="logout" onClick={() => handleOptionClick('Wyloguj')}>Wyloguj</li>
-            </ul>
-          </nav>
-    
-          <div className="content-display">
-            {showLogoutConfirmation ? (
-              <div className="logout-confirmation">
-                <p>Czy na pewno chcesz się wylogować?</p>
-                <button onClick={() => window.location.href = '/'} className="logout-yes">Tak</button>
-                <button onClick={() => setShowLogoutConfirmation(false)} className="logout-no">Nie</button>
-              </div>
-            ) : showChangePasswordForm ? (
-              <div className="change-password-form">
-                <h2>Zmień hasło</h2>
-                <form onSubmit={handleSubmit}>
-                  <div>
-                    <label>Login:</label>
-                    <input
-                      type="text"
-                      name="login"
-                      value={formData.login}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>Stare hasło:</label>
-                    <input
-                      type="password"
-                      name="oldPassword"
-                      value={formData.oldPassword}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>Nowe hasło:</label>
-                    <input
-                      type="password"
-                      name="newPassword"
-                      value={formData.newPassword}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>Powtórz nowe hasło:</label>
-                    <input
-                      type="password"
-                      name="confirmNewPassword"
-                      onChange={handleChange}
-                      value={formData.confirmNewPassword}
-                      required
-                    />
-                  </div>
-                  <button type="submit">Zmień hasło</button>
-                </form>
-                {errorMessage && <p className="error-message">{errorMessage}</p>}
-                {successMessage && <p className="success-message">{successMessage}</p>}
-              </div>
-            ) : (
-              <p>{selectedOption ? `Wybrana opcja: ${selectedOption}` : 'Wybierz zakładkę z menu.'}</p>
-            )}
-          </div>
-        </div>
-      );
+    // Sprawdzanie obecności sesji
+    if (!sessionId) {
+      console.warn('Brak sessionId - użytkownik nie jest zalogowany. Przekierowuję na stronę logowania.');
+      navigate('/'); // Przekierowanie na stronę logowania
+    } else if (role !== 'superAdministrator') { // Sprawdzanie roli użytkownika
+      console.warn('Brak uprawnień - użytkownik nie jest super administratorem. Przekierowuję do App.js.');
+      navigate('/'); // Przekierowanie, jeśli rola nie pasuje
+    } else {
+      console.log('Użytkownik zalogowany z odpowiednimi uprawnieniami.');
+      setIsAuthenticated(true);
+    }
+  }, [navigate]);
+
+  const handleOptionClick = (option) => {
+    console.log(`Kliknięto opcję menu: ${option}`);
+    setSelectedOption(option);
+    setShowLogoutConfirmation(option === 'Wyloguj');
+    setShowChangePasswordForm(option === 'Zarządzanie kontem');
+    setShowUserInfo(option === 'Informacje o użytkowniku');
+    setShowUserManager(option === 'Zarządzanie użytkownikami');
+    setShowMachineManager(option === 'Zarządzanie urządzeń');
+    setShowReportManager(option === 'Zarządzanie raportami');
+    setShowWorkManager(option === 'Zarządzanie robotami');
+    setShowExportData(option === 'Eksportuj dane'); // Aktywacja eksportu danych
+  };
+
+  const handleLogoutConfirm = () => {
+    console.log('Potwierdzono wylogowanie. Czyszczenie danych sesji...');
+    localStorage.removeItem('sessionId'); // Usuwanie sesji
+    localStorage.removeItem('userRole'); // Usuwanie roli użytkownika
+    console.log('sessionId i userRole zostały usunięte.');
+    navigate('/'); // Przekierowanie do strony głównej
+  };
+
+  const handleLogoutCancel = () => {
+    console.log('Anulowano wylogowanie.');
+    setShowLogoutConfirmation(false);
+  };
+
+  if (!isAuthenticated) {
+    console.log('Użytkownik nie jest zalogowany lub nie ma odpowiednich uprawnień.');
+    return <p>Sprawdzanie autoryzacji...</p>;
+  }
+
+  return (
+    <div className="page-container light">
+      <nav className="menu-sidebar">
+        <ul className="menu-list">
+          <li onClick={() => handleOptionClick('Informacje o użytkowniku')}>Informacje o użytkowniku</li>
+          <li onClick={() => handleOptionClick('Zarządzanie użytkownikami')}>Zarządzanie użytkownikami</li>
+          <li onClick={() => handleOptionClick('Zarządzanie robotami')}>Zarządzanie robotami</li>
+          <li onClick={() => handleOptionClick('Zarządzanie urządzeń')}>Zarządzanie urządzeń</li>
+          <li onClick={() => handleOptionClick('Zarządzanie raportami')}>Zarządzanie raportami</li>
+          <li onClick={() => handleOptionClick('Eksportuj dane')}>Eksportuj dane</li> {/* Dodano opcję eksportu danych */}
+          <li onClick={() => handleOptionClick('Zarządzanie kontem')}>Zarządzanie kontem</li>
+          <li className="logout" onClick={() => handleOptionClick('Wyloguj')}>Wyloguj</li>
+        </ul>
+      </nav>
+
+      <div className="content-display">
+        {showLogoutConfirmation ? (
+          <SubSuperAdminPageLogout
+            onConfirmLogout={handleLogoutConfirm}
+            onCancelLogout={handleLogoutCancel}
+          />
+        ) : showChangePasswordForm ? (
+          <SubSuperAdminPageAccountManager />
+        ) : showUserInfo ? (
+          <SubSuperAdminPageUserInfo />
+        ) : showUserManager ? (
+          <SubSuperAdminPageUserManager />
+        ) : showMachineManager ? (
+          <SubSuperAdminPageMachineManager />
+        ) : showReportManager ? (
+          <SubSuperAdminPageReportManager />
+        ) : showWorkManager ? (
+          <SubSuperAdminPageWorkManager />
+        ) : showExportData ? (
+          <SubSuperAdminPageExport /> // Renderowanie komponentu eksportu danych
+        ) : (
+          <p>{selectedOption ? `Wybrana opcja: ${selectedOption}` : 'Wybierz zakładkę z menu.'}</p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default SuperAdminPage;

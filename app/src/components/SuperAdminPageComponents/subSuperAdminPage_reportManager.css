@@ -1,0 +1,214 @@
+/* Kontener dla całej tabeli */
+.reports-manager-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    max-height: 90vh;
+    box-sizing: border-box;
+    background-color: #f4f4f9; /* Lekko szary dla większego kontrastu */
+    border-radius: 8px; /* Dodanie zaokrągleń */
+}
+
+/* Nagłówek tabeli */
+table.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    table-layout: fixed; /* Stała szerokość kolumn */
+    margin-bottom: 20px; /* Odstęp od formularza */
+}
+
+/* Nagłówki */
+thead {
+    background-color: #007BFF;
+    color: white;
+}
+
+th {
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    word-wrap: break-word; /* Dostosowanie tekstu w nagłówkach */
+    white-space: normal; /* Zezwolenie na łamanie linii */
+    padding: 10px; /* Większy padding dla czytelności */
+}
+
+/* Komórki tabeli */
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    word-wrap: break-word; /* Automatyczne zawijanie tekstu */
+    white-space: normal; /* Łamanie tekstu na kolejne linie */
+}
+
+/* Treść raportu (kolumna) */
+td.tresc-raportu-cell {
+    max-width: 300px; /* Szersza kolumna dla treści */
+    line-height: 1.5; /* Zwiększenie odstępów między liniami */
+    font-size: 13px;
+}
+
+/* Wiersze */
+tbody .main-row {
+    transition: background-color 0.2s ease;
+}
+
+tbody .main-row:hover {
+    background-color: #e6f7ff; /* Lekki efekt podświetlenia */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Jaśniejsza kolumna dla lepszej czytelności */
+}
+
+/* Zapewnienie elastycznego tekstu dla rozwiniętych wierszy */
+.expanded-row td {
+    white-space: normal; /* Zezwolenie na zawijanie tekstu */
+}
+
+/* Kolumny z ograniczoną szerokością */
+.overflow-cell {
+    max-width: 250px; /* Ograniczenie szerokości kolumny */
+}
+
+.expanded .overflow-cell {
+    max-width: none;
+    white-space: normal;
+}
+
+/* Dodanie stylu dla przycisku edycji */
+.styled-table button {
+    background-color: #FFC107; /* Żółty kolor dla edycji */
+    color: black;
+    padding: 6px 12px; /* Wygodniejszy padding */
+    border: none;
+    border-radius: 4px;
+    font-size: 13px; /* Minimalne zmniejszenie dla estetyki */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.styled-table button:hover {
+    background-color: #E0A800; /* Ciemniejszy żółty na hover */
+}
+
+/* Stylizacja formularza edycji */
+.edit-form {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Nagłówek formularza */
+.edit-form h2 {
+    color: #007BFF;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* Etykiety */
+.edit-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Pola tekstowe i rozwijane */
+.edit-form input, 
+.edit-form select, 
+.edit-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.edit-form textarea {
+    resize: vertical; /* Zezwolenie na dynamiczną zmianę wysokości */
+    min-height: 120px; /* Domyślny rozmiar dla dłuższych treści */
+}
+
+/* Przyciski w formularzu edycji */
+.edit-form button {
+    background-color: #007BFF; /* Niebieski przycisk dla zapisu */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-form button:hover {
+    background-color: #0056b3; /* Ciemniejszy niebieski na hover */
+}
+
+.edit-form button[type="button"] {
+    background-color: #FF4136; /* Czerwony przycisk dla anulowania */
+}
+
+.edit-form button[type="button"]:hover {
+    background-color: #CC3228;
+}
+
+/* Styl dla ekranów mobilnych */
+@media (max-width: 768px) {
+    th,
+    td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    table.styled-table {
+        font-size: 12px;
+    }
+
+    .edit-form input,
+    .edit-form select,
+    .edit-form textarea {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .edit-form button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+/* Styl dla treści (zwiększenie miejsca w treści) */
+#superwazne {
+    width: 100%; /* Dopasowanie do szerokości formularza */
+    height: 150px; /* Więcej miejsca na treści */
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: vertical;
+}
+
+/* Hover efekt dla komórek tabeli */
+td:hover {
+    background-color: #d3ebff; /* Subtelne podświetlenie kolumny */
+    transition: background-color 0.3s ease;
+}
+
+/* Hover efekt dla całego wiersza */
+tbody tr:hover {
+    background-color: #cce7ff; /* Mocniejsze podświetlenie wiersza */
+    transition: background-color 0.3s ease;
+}
+
+/* Dopasowanie tekstu w komórkach przy najechaniu */
+td:hover {
+    color: #333; /* Zmiana koloru tekstu */
+}

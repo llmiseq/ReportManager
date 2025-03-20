@@ -1,0 +1,48 @@
+.user-manager {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  max-height: 90vh;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 20px;
+  table-layout: fixed; /* Ustawienie stałej szerokości kolumn */
+}
+
+.styled-table th, .styled-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  word-wrap: break-word; /* Zawijanie tekstu w komórkach */
+  overflow: hidden; /* Ukrycie nadmiarowego tekstu */
+}
+
+.styled-table th {
+  background-color: #007BFF;
+  color: white;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.styled-table tr:hover {
+  background-color: #e6f7ff;
+}
+
+button {
+  background-color: #FF4136;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #CC3228;
+}

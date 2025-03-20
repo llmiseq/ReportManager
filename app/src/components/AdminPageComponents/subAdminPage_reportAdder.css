@@ -1,0 +1,96 @@
+/* Kontener dla dodawania urządzenia */
+.machine-adder-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/* Nagłówek */
+.machine-adder-container h1 {
+    color: #007BFF;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Etykiety formularza */
+.machine-adder-container label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Pole tekstowe */
+.machine-adder-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.2s ease-in-out;
+}
+
+/* Zmiana koloru pola na focus */
+.machine-adder-container input[type="text"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Przycisk "Dodaj" */
+.machine-adder-container button {
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover efekt przycisku */
+.machine-adder-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Komunikaty o błędach */
+.machine-adder-container .error {
+    color: #FF4136;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Komunikaty sukcesu */
+.machine-adder-container .success {
+    color: #28a745;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Styl mobilny */
+@media (max-width: 768px) {
+    .machine-adder-container {
+        padding: 15px;
+    }
+
+    .machine-adder-container h1 {
+        font-size: 18px;
+    }
+
+    .machine-adder-container input[type="text"] {
+        font-size: 13px;
+    }
+
+    .machine-adder-container button {
+        font-size: 14px;
+    }
+}

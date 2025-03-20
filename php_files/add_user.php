@@ -1,9 +1,8 @@
 <?php
-header("Access-Control-Allow-Origin: *"); // Zezwól na połączenia z dowolnego źródła
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-// Obsługa zapytań preflight (OPTIONS)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
@@ -14,7 +13,7 @@ $username = "root";
 $password = "";
 $dbname = "reportmanager";
 
-$log = "";
+$log = "Rozpoczęto przetwarzanie zapytania.\n";
 $status = "";
 $message = "";
 
@@ -28,19 +27,18 @@ if ($conn->connect_error) {
 }
 
 $data = json_decode(file_get_contents("php://input"));
-$log .= "Otrzymano dane z front-endu\n";
+$log .= "Otrzymano dane: " . json_encode($data) . "\n";
 
-if (isset($data->name) && isset($data->surname) && isset($data->department) && isset($data->administrator) && isset($data->login) && isset($data->password)) {
+if (isset($data->name) && isset($data->surname) && isset($data->department) && isset($data->isAdmin) && isset($data->login) && isset($data->password)) {
     $name = trim($data->name);
     $surname = trim($data->surname);
     $department = trim($data->department);
-    $administrator = (int)$data->administrator; // Konwersja na integer (0/1)
+    $isAdmin = (int)$data->isAdmin;
     $login = trim($data->login);
-    $password = trim($data->password);
+    $password = trim($data->password); // Zostawiamy hasło w formie zwykłego tekstu
 
     $log .= "Próba dodania użytkownika: $name $surname, Oddział: $department, Login: $login\n";
 
-    // Sprawdzenie, czy login już istnieje
     $checkSql = "SELECT id FROM users WHERE login = ?";
     $checkStmt = $conn->prepare($checkSql);
     $checkStmt->bind_param("s", $login);
@@ -52,10 +50,9 @@ if (isset($data->name) && isset($data->surname) && isset($data->department) && i
         $status = 'error';
         $message = 'Login już istnieje. Wybierz inny.';
     } else {
-        // Dodanie użytkownika do bazy danych
         $insertSql = "INSERT INTO users (name, surname, department, administrator, login, password) VALUES (?, ?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertSql);
-        $insertStmt->bind_param("ssssss", $name, $surname, $department, $administrator, $login, $password);
+        $insertStmt->bind_param("ssssss", $name, $surname, $department, $isAdmin, $login, $password);
 
         if ($insertStmt->execute()) {
             $log .= "Użytkownik został pomyślnie dodany.\n";

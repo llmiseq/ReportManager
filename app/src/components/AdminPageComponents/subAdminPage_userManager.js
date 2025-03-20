@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 function UserManager() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '', // Zmienione
+    surname: '', // Zmienione
     department: '',
     isAdmin: false,
     login: '',
@@ -26,6 +26,8 @@ function UserManager() {
     setSuccessMessage('');
 
     try {
+      console.log('Wysłane dane:', formData); // Logowanie wysyłanych danych
+
       const response = await fetch('http://localhost/add_user.php', {
         method: 'POST',
         headers: {
@@ -35,11 +37,13 @@ function UserManager() {
       });
 
       const result = await response.json();
+      console.log('Otrzymana odpowiedź:', result); // Logowanie odpowiedzi z serwera
+
       if (response.ok && result.status === 'success') {
         setSuccessMessage('Użytkownik został pomyślnie dodany!');
         setFormData({
-          firstName: '',
-          lastName: '',
+          name: '',
+          surname: '',
           department: '',
           isAdmin: false,
           login: '',
@@ -49,6 +53,7 @@ function UserManager() {
         setErrorMessage(result.message || 'Nie udało się dodać użytkownika.');
       }
     } catch (error) {
+      console.error('Błąd połączenia z serwerem:', error); // Logowanie błędu połączenia
       setErrorMessage('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
     }
   };
@@ -59,11 +64,11 @@ function UserManager() {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Imię:</label>
-          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+          <input type="text" name="name" value={formData.name} onChange={handleChange} required />
         </div>
         <div>
           <label>Nazwisko:</label>
-          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+          <input type="text" name="surname" value={formData.surname} onChange={handleChange} required />
         </div>
         <div>
           <label>Oddział:</label>
