@@ -6,6 +6,7 @@ import LogoutConfirmation from './UserPageComponents/subUserPage_logout';
 import UserInfo from './UserPageComponents/subUserPage_userInfo';
 import ReportAdder from './UserPageComponents/subUserPage_reportAdder';
 import ReportsViewer from './UserPageComponents/subUserPage_myReport';
+import logo from './dalbis-logo.png';
 
 function UserPage() {
   const [selectedOption, setSelectedOption] = useState(''); // Wybrana opcja menu
@@ -71,8 +72,9 @@ function UserPage() {
           <li onClick={() => handleOptionClick('Zarządzanie kontem')}>Zarządzanie kontem</li>
           <li className="logout" onClick={() => handleOptionClick('Wyloguj')}>Wyloguj</li>
         </ul>
+        <img src={logo} alt="Logo Dolne" className="footer-logo" />
       </nav>
-
+  
       <div className="content-display">
         {showLogoutConfirmation ? (
           <LogoutConfirmation
@@ -92,7 +94,7 @@ function UserPage() {
         )}
       </div>
     </div>
-  );
+  );  
 }
 
 export default UserPage;

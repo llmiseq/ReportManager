@@ -6,6 +6,8 @@ import ReferentPage from './components/ReferentPage';
 import UserPage from './components/UserPage';
 import AdminPage from './components/AdminPage';
 import SuperAdminPage from './components/SuperAdminPage';
+import logo from './exme-logo.png'; // Import logo
+import logo2 from './dalbis-logo.png'; // Import logo
 
 function App() {
   return (
@@ -42,6 +44,9 @@ function AppContent() {
         </div>
       ) : (
         <>
+          <header className="header">
+            <img src={logo} alt="Exme Logo" className="app-logo" />
+          </header>
           <Routes>
             <Route path="/referent" element={<ReferentPage />} />
             <Route path="/user" element={<UserPage />} />
@@ -51,6 +56,7 @@ function AppContent() {
               <>
                 <LoginForm />
                 <div className="theme-switch">
+                <div className='kontenr_logo_dalbis'><img src={logo2} alt="Dalbis Logo" className="app2-logo" /></div>
                   <label htmlFor="theme-switch">Zmiana motywu:</label>
                   <div className="switch" onClick={toggleTheme}>
                     <div className="slider"></div>
@@ -63,6 +69,7 @@ function AppContent() {
       )}
     </div>
   );
+  
 }
 
 export default App;

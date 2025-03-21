@@ -5,6 +5,8 @@ import AccountManager from './ReferentPageComponents/subReferentPage_accountMana
 import Logout from './ReferentPageComponents/subReferentPage_logout';
 import SubUserPageUserInfo from './ReferentPageComponents/subReferentPage_userInfo';
 import ReportViewer from './ReferentPageComponents/subReferentPage_reportViewer';
+import logo from './dalbis-logo.png';
+
 
 function ReferentPage() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -68,6 +70,7 @@ function ReferentPage() {
           <li onClick={() => handleOptionClick('Zarządzanie kontem')}>Zarządzanie kontem</li>
           <li className="logout" onClick={() => setShowLogoutConfirmation(true)}>Wyloguj</li>
         </ul>
+        <img src={logo} alt="Logo Dolne" className="footer-logo" />
       </nav>
       <div className="content-display">
         {showLogoutConfirmation ? (

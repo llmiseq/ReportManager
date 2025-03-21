@@ -9,6 +9,9 @@ import AdminReportViewer from './AdminPageComponents/subAdminPage_raportViewer';
 import SubAdminPageReportAdder from './AdminPageComponents/subAdminPage_reportAdder';
 import SubAdminPageWorkManager from './AdminPageComponents/subAdminPage_workManager';
 import SubAdminPageMachineAdder from './AdminPageComponents/subAdminPage_machineAdder';
+import SubAdminPageExport from './AdminPageComponents/subAdminPage_export';
+import logo from './dalbis-logo.png';
+
 
 function AdminPage() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -24,28 +27,19 @@ function AdminPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('Rozpoczęcie weryfikacji sesji i ról...');
     const sessionId = localStorage.getItem('sessionId');
     const role = localStorage.getItem('userRole'); // Pobierz rolę użytkownika
 
-    console.log('sessionId z localStorage:', sessionId);
-    console.log('Rola użytkownika z localStorage:', role);
-
-    // Sprawdzanie obecności sesji
     if (!sessionId) {
-      console.warn('Brak sessionId - użytkownik nie jest zalogowany. Przekierowuję na stronę logowania.');
       navigate('/'); // Przekierowanie na stronę logowania
     } else if (role !== 'administrator') { // Sprawdzanie roli użytkownika
-      console.warn('Brak uprawnień - użytkownik nie jest administratorem. Przekierowuję do App.js.');
       navigate('/'); // Przekierowanie, jeśli rola nie pasuje
     } else {
-      console.log('Użytkownik zalogowany z odpowiednimi uprawnieniami.');
       setIsAuthenticated(true);
     }
   }, [navigate]);
 
   const handleOptionClick = (option) => {
-    console.log(`Kliknięto opcję menu: ${option}`);
     setSelectedOption(option);
     setShowLogoutConfirmation(option === 'Wyloguj');
     setShowChangePasswordForm(option === 'Zarządzanie kontem');
@@ -58,20 +52,16 @@ function AdminPage() {
   };
 
   const handleLogoutConfirm = () => {
-    console.log('Potwierdzono wylogowanie. Czyszczenie danych sesji...');
     localStorage.removeItem('sessionId'); // Usuwanie sesji
     localStorage.removeItem('userRole'); // Usuwanie roli użytkownika
-    console.log('sessionId i userRole zostały usunięte.');
     navigate('/'); // Przekierowanie do strony głównej
   };
 
   const handleLogoutCancel = () => {
-    console.log('Anulowano wylogowanie.');
     setShowLogoutConfirmation(false);
   };
 
   if (!isAuthenticated) {
-    console.log('Użytkownik nie jest zalogowany lub nie ma odpowiednich uprawnień.');
     return <p>Sprawdzanie autoryzacji...</p>;
   }
 
@@ -86,8 +76,10 @@ function AdminPage() {
           <li onClick={() => handleOptionClick('Dodaj raport')}>Dodaj raport</li>
           <li onClick={() => handleOptionClick('Przeglądaj raporty')}>Przeglądaj raporty</li>
           <li onClick={() => handleOptionClick('Zarządzanie kontem')}>Zarządzanie kontem</li>
+          <li onClick={() => handleOptionClick('Eksportuj dane')}>Eksportuj dane</li>
           <li className="logout" onClick={() => handleOptionClick('Wyloguj')}>Wyloguj</li>
         </ul>
+        <img src={logo} alt="Logo Dolne" className="footer-logo" />
       </nav>
 
       <div className="content-display">
@@ -110,6 +102,8 @@ function AdminPage() {
           <AdminReportViewer />
         ) : showReportAdder ? (
           <SubAdminPageReportAdder />
+        ) : selectedOption === 'Eksportuj dane' ? (
+          <SubAdminPageExport />
         ) : (
           <p>{selectedOption ? `Wybrana zakładka: ${selectedOption}` : 'Wybierz zakładkę z menu.'}</p>
         )}

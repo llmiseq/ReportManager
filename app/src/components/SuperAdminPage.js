@@ -9,6 +9,8 @@ import SubSuperAdminPageReportManager from './SuperAdminPageComponents/subSuperA
 import SubSuperAdminPageUserManager from './SuperAdminPageComponents/subSuperAdminPage_userManager';
 import SubSuperAdminPageWorkManager from './SuperAdminPageComponents/subSuperAdminPage_workManager';
 import SubSuperAdminPageExport from './SuperAdminPageComponents/subSuperAdminPage_export'; // Import komponentu Eksportu
+import logo from './dalbis-logo.png';
+
 
 function SuperAdminPage() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -88,6 +90,7 @@ function SuperAdminPage() {
           <li onClick={() => handleOptionClick('Zarządzanie kontem')}>Zarządzanie kontem</li>
           <li className="logout" onClick={() => handleOptionClick('Wyloguj')}>Wyloguj</li>
         </ul>
+        <img src={logo} alt="Logo Dolne" className="footer-logo" />
       </nav>
 
       <div className="content-display">

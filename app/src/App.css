@@ -1,11 +1,9 @@
 body {
-  
-  height: 100vh;
+  height: 97.9vh;
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #d3cce3, #e9e4f0);
+  background: linear-gradient(135deg, #007bff, #e9e4f0);
   position: relative;
-  
 }
 
 .App {
@@ -304,4 +302,29 @@ h1 {
 
 .dark .switch .slider {
   left: 32px;
+}
+
+.app-logo {
+  width: 200px; /* Szerokość logo */
+  height: auto; /* Automatyczna wysokość proporcjonalna */
+  margin: 20px auto; /* Wyśrodkowanie */
+  display: block;
+}
+
+.kontenr_logo_dalbis {
+  position: fixed; /* Zamiast absolute, aby uniezależnić od innych elementów */
+  bottom: 60px; /* Dopasuj odległość od dołu */
+  left: 50%; /* Wyśrodkuj poziomo */
+  transform: translate(-50%, 0); /* Dokładne wyśrodkowanie */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Upewnij się, że jest na wierzchu */
+}
+
+
+
+.app2-logo {
+  width: 75px;
+  height: auto;
 }

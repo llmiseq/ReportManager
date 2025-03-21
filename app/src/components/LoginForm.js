@@ -54,7 +54,7 @@ const LoginForm = () => {
 
     return (
         <div className="login-container">
-            <h1>Zaloguj się na swoje konto</h1>
+            <h1>Raporty wierceń - Logowanie</h1>
             <form onSubmit={handleLogin} className="login-form">
                 <div className="input-group">
                     <label htmlFor="username">Nazwa użytkownika:</label>
@@ -76,9 +76,9 @@ const LoginForm = () => {
                         required
                     />
                 </div>
-                <p type="button" className="reset-password" onClick={() => alert('Resetowanie hasła...')}>
+                {/* <p type="button" className="reset-password" onClick={() => alert('Resetowanie hasła...')}>
                     Resetuj hasło
-                </p>
+                </p> */}
                 <button type="submit" className="login-button">
                     {isLoading ? <span className="loader"></span> : 'Zaloguj'}
                 </button>
