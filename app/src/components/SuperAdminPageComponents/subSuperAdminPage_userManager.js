@@ -7,14 +7,14 @@ function SubSuperAdminPageUserManager() {
         name: '',
         surname: '',
         department: '',
-        isAdmin: false,
+        role: 'user', // Domyślna wartość roli
         login: '',
         password: '',
     });
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    // Pobranie listy użytkowników
+    // Pobieranie listy użytkowników
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -27,6 +27,11 @@ function SubSuperAdminPageUserManager() {
                 method: 'GET',
                 credentials: 'include',
             });
+
+            if (!response.ok) {
+                throw new Error('Błąd połączenia z serwerem.');
+            }
+
             const result = await response.json();
             if (result.status === 'success') {
                 setUsers(result.users);
@@ -34,7 +39,7 @@ function SubSuperAdminPageUserManager() {
                 setErrorMessage(result.message || 'Nie udało się pobrać listy użytkowników.');
             }
         } catch (error) {
-            setErrorMessage('Błąd połączenia z serwerem. Spróbuj ponownie później.');
+            setErrorMessage('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
         }
     };
 
@@ -47,23 +52,28 @@ function SubSuperAdminPageUserManager() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id }),
             });
+
+            if (!response.ok) {
+                throw new Error('Błąd połączenia z serwerem.');
+            }
+
             const result = await response.json();
             if (result.status === 'success') {
                 setSuccessMessage(result.message);
-                fetchUsers(); // Odśwież listę użytkowników po usunięciu
+                fetchUsers(); // Odświeżenie listy użytkowników
             } else {
                 setErrorMessage(result.message || 'Nie udało się usunąć użytkownika.');
             }
         } catch (error) {
-            setErrorMessage('Błąd połączenia z serwerem. Spróbuj ponownie później.');
+            setErrorMessage('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
         }
     };
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: value,
         });
     };
 
@@ -73,7 +83,7 @@ function SubSuperAdminPageUserManager() {
         setSuccessMessage('');
 
         try {
-            console.log('Wysłane dane:', formData); // Logowanie wysyłanych danych
+            console.log('Wysłane dane:', formData);
 
             const response = await fetch('http://localhost/add_user.php', {
                 method: 'POST',
@@ -83,26 +93,39 @@ function SubSuperAdminPageUserManager() {
                 body: JSON.stringify(formData),
             });
 
-            const result = await response.json();
-            console.log('Otrzymana odpowiedź:', result); // Logowanie odpowiedzi z serwera
+            const textResponse = await response.text(); // Odczytanie tekstowej odpowiedzi
+            console.log('Surowa odpowiedź:', textResponse);
 
-            if (response.ok && result.status === 'success') {
-                setSuccessMessage('Użytkownik został pomyślnie dodany!');
+            // Sprawdzanie czy odpowiedź jest HTML
+            const contentType = response.headers.get('Content-Type');
+            if (contentType && contentType.includes('text/html')) {
+                throw new Error('Serwer zwrócił HTML zamiast JSON.');
+            }
+
+            if (!response.ok) {
+                throw new Error(textResponse || 'Nie udało się połączyć z serwerem.');
+            }
+
+            const jsonResponse = JSON.parse(textResponse);
+            console.log('Otrzymany JSON:', jsonResponse);
+
+            if (jsonResponse.status === 'success') {
+                setSuccessMessage(jsonResponse.message || 'Użytkownik został pomyślnie dodany!');
                 setFormData({
                     name: '',
                     surname: '',
                     department: '',
-                    isAdmin: false,
+                    role: 'user', // Resetowanie wartości domyślnej
                     login: '',
                     password: '',
                 });
-                fetchUsers(); // Odśwież listę użytkowników po dodaniu nowego
+                fetchUsers(); // Odśwież listę użytkowników
             } else {
-                setErrorMessage(result.message || 'Nie udało się dodać użytkownika.');
+                setErrorMessage(jsonResponse.message || 'Nie udało się dodać użytkownika.');
             }
         } catch (error) {
-            console.error('Błąd połączenia z serwerem:', error); // Logowanie błędu połączenia
-            setErrorMessage('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
+            console.error('Błąd połączenia z serwerem:', error);
+            setErrorMessage(error.message || 'Nie udało się połączyć z serwerem.');
         }
     };
 
@@ -146,6 +169,19 @@ function SubSuperAdminPageUserManager() {
                         />
                     </div>
                     <div>
+                        <label>Rola:</label>
+                        <select
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="user">Użytkownik</option>
+                            <option value="auditor">Auditor</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <div>
                         <label>Login:</label>
                         <input
                             type="text"
@@ -176,6 +212,7 @@ function SubSuperAdminPageUserManager() {
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>Oddział</th>
+                        <th>Rola</th>
                         <th>Login</th>
                         <th>Akcje</th>
                     </tr>
@@ -186,6 +223,7 @@ function SubSuperAdminPageUserManager() {
                             <td>{user.name}</td>
                             <td>{user.surname}</td>
                             <td>{user.department}</td>
+                            <td>{user.role}</td>
                             <td>{user.login}</td>
                             <td>
                                 <button onClick={() => handleDeleteUser(user.id)}>Usuń</button>

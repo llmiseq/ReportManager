@@ -1,7 +1,11 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json");
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -13,32 +17,34 @@ $username = "root";
 $password = "";
 $dbname = "reportmanager";
 
-$log = "Rozpoczęto przetwarzanie zapytania.\n";
-$status = "";
-$message = "";
-
-$log .= "Łączenie się z bazą danych: $dbname z użytkownikiem: $username\n";
-
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 if ($conn->connect_error) {
-    $log .= "Błąd połączenia: " . $conn->connect_error . "\n";
-    die(json_encode(['status' => 'error', 'message' => 'Connection failed: ' . $conn->connect_error, 'log' => $log]));
+    http_response_code(500);
+    echo json_encode(["status" => "error", "message" => "Błąd połączenia z bazą danych: " . $conn->connect_error]);
+    exit;
 }
 
-$data = json_decode(file_get_contents("php://input"));
-$log .= "Otrzymano dane: " . json_encode($data) . "\n";
+$data = json_decode(file_get_contents("php://input"), true);
+if (!$data) {
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "Niepoprawne dane wejściowe."]);
+    exit;
+}
 
-if (isset($data->name) && isset($data->surname) && isset($data->department) && isset($data->isAdmin) && isset($data->login) && isset($data->password)) {
-    $name = trim($data->name);
-    $surname = trim($data->surname);
-    $department = trim($data->department);
-    $isAdmin = (int)$data->isAdmin;
-    $login = trim($data->login);
-    $password = trim($data->password); // Zostawiamy hasło w formie zwykłego tekstu
+if (isset($data['name'], $data['surname'], $data['department'], $data['role'], $data['login'], $data['password'])) {
+    $name = $conn->real_escape_string($data['name']);
+    $surname = $conn->real_escape_string($data['surname']);
+    $department = $conn->real_escape_string($data['department']);
+    $role = $conn->real_escape_string($data['role']);
+    $login = $conn->real_escape_string($data['login']);
+    $password = $conn->real_escape_string($data['password']);
 
-    $log .= "Próba dodania użytkownika: $name $surname, Oddział: $department, Login: $login\n";
+    // Przypisanie wartości roli
+    $isAdmin = ($role === "admin") ? 1 : 0;
+    $isAuditor = ($role === "auditor") ? 1 : 0;
+    $isSuperAdmin = 0; // Zawsze ustawiamy na 0
 
+    // Sprawdzenie, czy login już istnieje
     $checkSql = "SELECT id FROM users WHERE login = ?";
     $checkStmt = $conn->prepare($checkSql);
     $checkStmt->bind_param("s", $login);
@@ -46,37 +52,30 @@ if (isset($data->name) && isset($data->surname) && isset($data->department) && i
     $checkResult = $checkStmt->get_result();
 
     if ($checkResult->num_rows > 0) {
-        $log .= "Login $login już istnieje w bazie danych.\n";
-        $status = 'error';
-        $message = 'Login już istnieje. Wybierz inny.';
-    } else {
-        $insertSql = "INSERT INTO users (name, surname, department, administrator, login, password) VALUES (?, ?, ?, ?, ?, ?)";
-        $insertStmt = $conn->prepare($insertSql);
-        $insertStmt->bind_param("ssssss", $name, $surname, $department, $isAdmin, $login, $password);
-
-        if ($insertStmt->execute()) {
-            $log .= "Użytkownik został pomyślnie dodany.\n";
-            $status = 'success';
-            $message = 'Użytkownik został pomyślnie dodany!';
-        } else {
-            $log .= "Błąd podczas dodawania użytkownika: " . $conn->error . "\n";
-            $status = 'error';
-            $message = 'Błąd podczas dodawania użytkownika. Spróbuj ponownie później.';
-        }
-
-        $insertStmt->close();
+        http_response_code(409);
+        echo json_encode(["status" => "error", "message" => "Login już istnieje."]);
+        exit;
     }
 
+    // Dodawanie użytkownika (bez kolumny user)
+    $insertSql = "INSERT INTO users (name, surname, department, administrator, superAdministrator, auditor, login, password) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $insertStmt = $conn->prepare($insertSql);
+    $insertStmt->bind_param("ssssssss", $name, $surname, $department, $isAdmin, $isSuperAdmin, $isAuditor, $login, $password);
+
+    if ($insertStmt->execute()) {
+        echo json_encode(["status" => "success", "message" => "Użytkownik został pomyślnie dodany."]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Błąd podczas dodawania użytkownika: " . $conn->error]);
+    }
+
+    $insertStmt->close();
     $checkStmt->close();
 } else {
-    $log .= "Nie wypełniono wymaganych pól.\n";
-    $status = 'error';
-    $message = 'Wypełnij wszystkie pola.';
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "Brak wymaganych danych."]);
 }
 
 $conn->close();
-$log .= "Zamknięto połączenie z bazą danych.\n";
-
-$response = ['status' => $status, 'message' => $message, 'log' => $log];
-echo json_encode($response);
 ?>
