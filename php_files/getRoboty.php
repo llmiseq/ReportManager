@@ -4,10 +4,10 @@ header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reportmanager";
+$servername = "mysql.mikr.us"; // Zmienione na zdalny serwer
+$username = "marek136";        // Twój login do bazy
+$password = "EFDC_168983";     // Twoje hasło do bazy
+$dbname = "db_marek136";       
 
 // Połączenie z bazą danych
 $conn = new mysqli($servername, $username, $password, $dbname);

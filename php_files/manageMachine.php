@@ -3,10 +3,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reportmanager";
+$servername = "mysql.mikr.us"; // Zmienione na zdalny serwer
+$username = "marek136";        // Twój login do bazy
+$password = "EFDC_168983";     // Twoje hasło do bazy
+$dbname = "db_marek136";       
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

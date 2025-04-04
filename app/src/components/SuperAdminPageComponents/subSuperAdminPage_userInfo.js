@@ -15,7 +15,7 @@ function SubSuperAdminPageUserInfo() {
       }
 
       fetch(`http://localhost/getUserInfo.php?sessionId=${sessionId}`, {
-        method: 'GET',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })
         .then((response) => response.json())

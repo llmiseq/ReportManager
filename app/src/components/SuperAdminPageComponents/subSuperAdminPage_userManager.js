@@ -24,7 +24,7 @@ function SubSuperAdminPageUserManager() {
         setSuccessMessage('');
         try {
             const response = await fetch('http://localhost/get_users.php', {
-                method: 'GET',
+                method: 'POST',
                 credentials: 'include',
             });
 

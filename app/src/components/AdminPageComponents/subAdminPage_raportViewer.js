@@ -12,7 +12,7 @@ function SubAdminPageReportViewer() {
 
   useEffect(() => {
     fetch('http://localhost/getReports.php', {
-      method: 'GET',
+      method: 'POST',
       credentials: 'include',
     })
       .then((response) => response.json())

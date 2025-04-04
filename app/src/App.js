@@ -6,6 +6,8 @@ import ReferentPage from './components/ReferentPage';
 import UserPage from './components/UserPage';
 import AdminPage from './components/AdminPage';
 import SuperAdminPage from './components/SuperAdminPage';
+import ZokAdminPage from './components/ZokAdminPage';
+import ZokUserPage from './components/ZokUserPage';
 import logo from './exme-logo.png'; // Import logo
 import logo2 from './dalbis-logo.png'; // Import logo
 
@@ -20,6 +22,7 @@ function App() {
 function AppContent() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const [showDalbisLogo, setShowDalbisLogo] = useState(true); // Stan sterujący wyświetlaniem logo Dalbis
 
   useEffect(() => {
     setTimeout(() => {
@@ -27,8 +30,9 @@ function AppContent() {
     }, 2000); // Wyświetlaj ekran ładowania przez 2 sekundy
   }, []);
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
+  // Funkcja przekazywana do LoginForm, która umożliwia ukrycie logo Dalbis
+  const toggleDalbisLogo = (isVisible) => {
+    setShowDalbisLogo(isVisible);
   };
 
   return (
@@ -52,24 +56,28 @@ function AppContent() {
             <Route path="/user" element={<UserPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/sadmin" element={<SuperAdminPage />} />
-            <Route path="/" element={
-              <>
-                <LoginForm />
-                <div className="theme-switch">
-                <div className='kontenr_logo_dalbis'><img src={logo2} alt="Dalbis Logo" className="app2-logo" /></div>
-                  <label htmlFor="theme-switch">Zmiana motywu:</label>
-                  <div className="switch" onClick={toggleTheme}>
-                    <div className="slider"></div>
+            <Route path="/zokadmin" element={<ZokAdminPage />} />
+            <Route path="/zokuser" element={<ZokUserPage />} />
+            <Route
+              path="/"
+              element={
+                <>
+                  <LoginForm toggleDalbisLogo={toggleDalbisLogo} /> {/* Przekazanie funkcji do kontrolowania logo */}
+                  <div className="theme-switch">
+                    {showDalbisLogo && (
+                      <div className="kontenr_logo_dalbis">
+                        <img src={logo2} alt="Dalbis Logo" className="app2-logo" />
+                      </div>
+                    )}
                   </div>
-                </div>
-              </>
-            } />
+                </>
+              }
+            />
           </Routes>
         </>
       )}
     </div>
   );
-  
 }
 
 export default App;

@@ -87,7 +87,7 @@ function SubAdminPageReportAdder() {
         <div>
           <label>Roboty:</label>
           <select value={selectedRobot} onChange={(e) => setSelectedRobot(e.target.value)}>
-            <option value="">Wybierz robot</option>
+            <option value="">Wybierz robotę</option>
             {roboty.map((robot, index) => (
               <option key={index} value={robot}>
                 {robot}

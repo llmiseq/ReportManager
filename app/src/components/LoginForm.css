@@ -1,0 +1,53 @@
+/* Kontener dla wyboru firmy */
+.change-firm-container {
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+#username {
+  width: 100%;
+}
+
+  /* Etykieta dla pola wyboru firmy */
+  #loginMode {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Input dla wyboru firmy */
+  #loginMode {
+    width: 104%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  #loginMode:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 120, 215, 0.5);
+    outline: none;
+  }
+  
+  /* Styl hover dla pola wyboru */
+  #loginMode:hover {
+    background-color: #e9e9e9;
+  }
+  
+  /* Responsywność */
+  @media screen and (max-width: 768px) {
+    #loginMode {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    .login-mode-select {
+      font-size: 0.9rem;
+    }
+  }
+  

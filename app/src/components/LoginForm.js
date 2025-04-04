@@ -1,60 +1,93 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import './LoginForm.css';
 
-const LoginForm = () => {
+const LoginForm = ({ toggleDalbisLogo }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [loginMode, setLoginMode] = useState('dalbis'); // Domyślny tryb Dalbis
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLoginModeChange = (e) => {
+        const selectedMode = e.target.value;
+        setLoginMode(selectedMode);
+        toggleDalbisLogo(selectedMode === 'dalbis'); // Ukrywanie logo Dalbis dla ZOK
+        console.log('Zmieniono tryb logowania na:', selectedMode);
+    };
+
+    const handleLogin = async (e) => {
         e.preventDefault();
         setError(null); // Resetowanie błędów
         setIsLoading(true);
-    
-        // Wysyłanie danych logowania do backendu
-        axios.post('http://localhost/api.php', { username: username.trim(), password: password.trim() })
-            .then(response => {
-                console.log('Odpowiedź z serwera:', response.data);
-                setIsLoading(false);
-    
-                if (response.data.status === 'success') {
-                    console.log('Logowanie zakończone sukcesem! Zapisuję sessionId:', response.data.sessionId);
-    
-                    // Zapisz sessionId i rolę w localStorage
-                    localStorage.setItem('sessionId', response.data.sessionId);
-                    localStorage.setItem('userRole', response.data.role);
-    
-                    // Przekierowanie na podstawie roli użytkownika
-                    const role = response.data.role;
-                    if (role === 'superAdministrator') {
-                        navigate('/sadmin');
-                    } else if (role === 'administrator') {
-                        navigate('/admin');
-                    } else if (role === 'auditor') {
-                        navigate('/referent');
-                    } else {
-                        navigate('/user');
-                    }
-                } else {
-                    // Obsługa błędów logowania
-                    console.error('Błąd podczas logowania:', response.data.message);
-                    setError(response.data.message || 'Błąd logowania. Spróbuj ponownie.');
-                }
-            })
-            .catch(error => {
-                console.error('Błąd logowania:', error.response ? error.response.data : error.message);
-                setIsLoading(false);
-                setError('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
+        console.log('Próba logowania dla użytkownika:', username);
+
+        try {
+            const endpoint = loginMode === 'zok' 
+                ? 'http://95.216.37.44:40003/ReportManager/php_files/zok-login.php'
+                : 'http://95.216.37.44:40003/ReportManager/php_files/api.php';
+
+            console.log('Wysyłanie żądania do endpointu:', endpoint);
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username.trim(), password: password.trim() }),
             });
+
+            const data = await response.json();
+            setIsLoading(false);
+            console.log('Otrzymana odpowiedź z serwera:', data);
+
+            if (data.status === 'success') {
+                console.log('Logowanie powiodło się. Klucz sesji:', data.sessionId);
+                localStorage.setItem('sessionId', data.sessionId);
+                localStorage.setItem('userRole', loginMode === 'zok' ? 'user' : data.role); // Zawsze ustawiamy 'user' dla ZOK
+
+                // Przekierowanie w zależności od trybu logowania
+                if (loginMode === 'zok') {
+                    console.log('Tryb ZOK: Tymczasowe przeniesienie na /user (Dalbis UserPage)');
+                    navigate('/user'); // Tymczasowe przekierowanie na UserPage dla ZOK
+                } else {
+                    // Obsługa logowania Dalbis
+                    const rolePathMap = {
+                        superAdministrator: '/sadmin',
+                        administrator: '/admin',
+                        auditor: '/referent',
+                        user: '/user',
+                    };
+                    const redirectPath = rolePathMap[data.role] || '/user'; // Domyślne przekierowanie na /user
+                    console.log(`Przekierowanie na ścieżkę: ${redirectPath}`);
+                    navigate(redirectPath);
+                }
+            } else {
+                console.error('Błąd logowania:', data.message);
+                setError(data.message || 'Błąd logowania. Spróbuj ponownie.');
+            }
+        } catch (error) {
+            setIsLoading(false);
+            console.error('Błąd połączenia z serwerem:', error);
+            setError('Nie udało się połączyć z serwerem. Spróbuj ponownie później.');
+        }
     };
-    
 
     return (
         <div className="login-container">
-            <h1>Raporty wierceń - Logowanie</h1>
+            <h1>{loginMode === 'dalbis' ? 'Raporty wierceń - Logowanie Dalbis' : 'Logowanie ZOK'}</h1>
+
+            <div className="login-mode-select">
+                <label htmlFor="loginMode">Wybierz sposób logowania:</label>
+                <select
+                    id="loginMode"
+                    value={loginMode}
+                    onChange={handleLoginModeChange}
+                >
+                    <option value="dalbis">Logowanie jako Dalbis</option>
+                    <option value="zok">Logowanie jako ZOK</option>
+                </select>
+            </div>
+
             <form onSubmit={handleLogin} className="login-form">
                 <div className="input-group">
                     <label htmlFor="username">Nazwa użytkownika:</label>
@@ -76,13 +109,11 @@ const LoginForm = () => {
                         required
                     />
                 </div>
-                {/* <p type="button" className="reset-password" onClick={() => alert('Resetowanie hasła...')}>
-                    Resetuj hasło
-                </p> */}
                 <button type="submit" className="login-button">
                     {isLoading ? <span className="loader"></span> : 'Zaloguj'}
                 </button>
             </form>
+
             {error && <div className="error-popup">{error}</div>}
         </div>
     );

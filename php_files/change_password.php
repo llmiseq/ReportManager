@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reportmanager";
+$servername = "mysql.mikr.us"; // Zmienione na zdalny serwer
+$username = "marek136";        // Twój login do bazy
+$password = "EFDC_168983";     // Twoje hasło do bazy
+$dbname = "db_marek136";       // Nazwa bazy danych
 
 $log = "";
 $status = "";

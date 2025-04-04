@@ -6,6 +6,7 @@ import LogoutConfirmation from './UserPageComponents/subUserPage_logout';
 import UserInfo from './UserPageComponents/subUserPage_userInfo';
 import ReportAdder from './UserPageComponents/subUserPage_reportAdder';
 import ReportsViewer from './UserPageComponents/subUserPage_myReport';
+import Dashboard from './UserPageComponents/subUserPage_dashboard';
 import logo from './dalbis-logo.png';
 
 function UserPage() {
@@ -16,49 +17,35 @@ function UserPage() {
   const navigate = useNavigate(); // Hook nawigacji
 
   useEffect(() => {
-    console.log('Rozpoczęcie weryfikacji sesji i ról...');
     const sessionId = localStorage.getItem('sessionId');
     const role = localStorage.getItem('userRole'); // Pobierz rolę użytkownika
 
-    console.log('sessionId z localStorage:', sessionId);
-    console.log('Rola użytkownika z localStorage:', role);
-    
-
-    // Sprawdzanie obecności sesji i roli użytkownika
     if (!sessionId) {
-      console.warn('Brak sessionId - użytkownik nie jest zalogowany. Przekierowuję na stronę logowania.');
       navigate('/'); // Przekierowanie na stronę logowania
-    } else if (role !== 'user') { // Sprawdzanie roli użytkownika
-      console.warn('Brak uprawnień - użytkownik nie jest zwykłym użytkownikiem. Przekierowuję do App.js.');
+    } else if (role !== 'user') {
       navigate('/'); // Przekierowanie w przypadku braku uprawnień
     } else {
-      console.log('Użytkownik zalogowany z odpowiednimi uprawnieniami.');
       setIsAuthenticated(true); // Ustawienie flagi autoryzacji
     }
   }, [navigate]);
 
   const handleOptionClick = (option) => {
-    console.log(`Kliknięto opcję menu: ${option}`);
     setSelectedOption(option); // Zmiana wybranej opcji
     setShowLogoutConfirmation(option === 'Wyloguj'); // Wylogowanie
     setShowChangePasswordForm(option === 'Zarządzanie kontem'); // Zmiana hasła
   };
 
   const handleLogoutConfirm = () => {
-    console.log('Potwierdzono wylogowanie. Czyszczenie danych sesji...');
     localStorage.removeItem('sessionId'); // Usuwanie sesji
     localStorage.removeItem('userRole'); // Usuwanie roli użytkownika
-    console.log('sessionId i userRole zostały usunięte.');
     navigate('/'); // Przekierowanie do strony głównej
   };
 
   const handleLogoutCancel = () => {
-    console.log('Anulowano wylogowanie.');
     setShowLogoutConfirmation(false); // Ukrycie potwierdzenia wylogowania
   };
 
   if (!isAuthenticated) {
-    console.log('Użytkownik nie jest zalogowany lub nie ma odpowiednich uprawnień.');
     return <p>Sprawdzanie autoryzacji...</p>;
   }
 
@@ -69,6 +56,7 @@ function UserPage() {
           <li onClick={() => handleOptionClick('Informacje o użytkowniku')}>Informacje o użytkowniku</li>
           <li onClick={() => handleOptionClick('Raporty')}>Raporty</li>
           <li onClick={() => handleOptionClick('Kreator raportów')}>Kreator raportów</li>
+          <li onClick={() => handleOptionClick('Panel Główny')}>Panel Główny</li>
           <li onClick={() => handleOptionClick('Zarządzanie kontem')}>Zarządzanie kontem</li>
           <li className="logout" onClick={() => handleOptionClick('Wyloguj')}>Wyloguj</li>
         </ul>
@@ -89,6 +77,8 @@ function UserPage() {
           <ReportsViewer />
         ) : selectedOption === 'Kreator raportów' ? (
           <ReportAdder />
+        ) : selectedOption === 'Panel Główny' ? (
+          <Dashboard />
         ) : (
           <p>{selectedOption ? `Wybrana opcja: ${selectedOption}` : 'Wybierz zakładkę z menu.'}</p>
         )}

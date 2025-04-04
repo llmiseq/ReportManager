@@ -1,6 +1,6 @@
 <?php
 // Dodanie nagłówków CORS
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Dostosowane do Twojej domeny front-end
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/json');
@@ -12,10 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Połączenie z bazą danych
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$dbname = 'reportmanager';
+$servername = "mysql.mikr.us"; // Zmienione na zdalny serwer
+$username = "marek136";        // Twój login do bazy
+$password = "EFDC_168983";     // Twoje hasło do bazy
+$dbname = "db_marek136";       // Nazwa bazy danych
 
 $conn = new mysqli($host, $username, $password, $dbname);
 

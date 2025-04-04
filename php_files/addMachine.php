@@ -3,10 +3,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reportmanager";
+$servername = "mysql.mikr.us";
+$username = "marek136";
+$password = "EFDC_168983";
+$dbname = "db_marek136";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

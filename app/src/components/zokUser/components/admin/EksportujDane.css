@@ -1,0 +1,92 @@
+.content-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(to bottom right, #ffffff, #f0f3f7);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .content-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .content-container p {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+    outline: none;
+  }
+  
+  .entries-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .entries-table th,
+  .entries-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .entries-table th {
+    background-color: #f0f3f7;
+    font-weight: bold;
+  }
+  
+  .entries-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .entries-table tr:hover {
+    background-color: #eef;
+  }
+  
+  /* Responsywność */
+  @media (max-width: 768px) {
+    .content-container {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    .entries-table th,
+    .entries-table td {
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+  

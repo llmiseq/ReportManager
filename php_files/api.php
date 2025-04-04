@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
@@ -18,10 +18,10 @@ if (!$data || !isset($data['username']) || !isset($data['password'])) {
 }
 
 // Połączenie z bazą danych
-$servername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "reportmanager";
+$servername = "mysql.mikr.us";  // Zmienione na zdalny serwer
+$dbUsername = "marek136";       // Twój login do bazy
+$dbPassword = "EFDC_168983";    // Twoje hasło do bazy
+$dbName = "db_marek136";        // Nazwa bazy danych
 
 $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbName);
 if ($conn->connect_error) {

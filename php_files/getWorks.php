@@ -8,10 +8,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reportmanager";
+$servername = "mysql.mikr.us"; // Zmienione na zdalny serwer
+$username = "marek136";        // Twój login do bazy
+$password = "EFDC_168983";     // Twoje hasło do bazy
+$dbname = "db_marek136";       
 
 // Połączenie z bazą danych
 $conn = new mysqli($servername, $username, $password, $dbname);

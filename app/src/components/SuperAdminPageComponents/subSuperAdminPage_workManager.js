@@ -6,21 +6,19 @@ function SubSuperAdminPageWorkManager() {
   const [inwestor, setInwestor] = useState("");
   const [dataKol, setDataKol] = useState("");
   const [dataZak, setDataZak] = useState("");
+  const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [works, setWorks] = useState([]); // Lista robót
+  const [works, setWorks] = useState([]);
 
-  // Pobieranie robót przy załadowaniu komponentu
   useEffect(() => {
-    console.log("Komponent załadowany. Pobieranie danych...");
+    console.log("Ładowanie komponentu...");
     fetchWorks();
   }, []);
 
   const fetchWorks = () => {
-    console.log("Wysyłanie zapytania do endpointa getWorks.php...");
-    fetch("http://localhost/getWorks.php", {
-      method: "GET",
-    })
+    console.log("Pobieranie danych z serwera...");
+    fetch("http://localhost/getWorks.php", { method: "POST" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Błąd sieci: ${response.status}`);
@@ -30,6 +28,7 @@ function SubSuperAdminPageWorkManager() {
       .then((data) => {
         if (data.status === "success") {
           setWorks(data.works || []);
+          console.log("Dane pobrane pomyślnie:", data.works);
         } else {
           setError(data.message || "Nie udało się pobrać robót.");
         }
@@ -40,10 +39,99 @@ function SubSuperAdminPageWorkManager() {
       });
   };
 
+  const handleEdit = (work) => {
+    console.log("Edytowanie roboty o ID:", work.id_roboty);
+    setEditingId(work.id_roboty);
+    setNazwa(work.nazwa);
+    setInwestor(work.inwestor);
+    setDataKol(work.data_kol);
+    setDataZak(work.data_zak || "");
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    console.log("Aktualizowanie roboty...");
+
+    if (!editingId || !nazwa || !inwestor || !dataKol) {
+      setError("Proszę wypełnić wszystkie wymagane pola.");
+      return;
+    }
+
+    const updatedWork = {
+      id_roboty: editingId,
+      nazwa,
+      inwestor,
+      data_kol: dataKol,
+      data_zak: dataZak,
+    };
+
+    fetch("http://localhost/updateWorks.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedWork),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Błąd sieci: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          setSuccessMessage(data.message || "Robota została zaktualizowana pomyślnie.");
+          resetForm();
+          fetchWorks(); // Odświeżenie listy robót
+        } else {
+          setError(data.message || "Nie udało się zaktualizować roboty.");
+        }
+      })
+      .catch((err) => {
+        console.error("Błąd w handleUpdate:", err.message);
+        setError("Nie udało się połączyć z serwerem. Szczegóły: " + err.message);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Dodawanie nowej roboty...");
+
+    if (!nazwa || !inwestor || !dataKol) {
+      setError("Proszę wypełnić wszystkie wymagane pola.");
+      return;
+    }
+
+    const workData = { nazwa, inwestor, data_kol: dataKol, data_zak: dataZak };
+
+    fetch("http://localhost/addWork.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(workData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Błąd sieci: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          setSuccessMessage("Robota została dodana pomyślnie.");
+          resetForm();
+          fetchWorks(); // Odświeżenie listy robót
+        } else {
+          setError(data.message || "Wystąpił błąd podczas dodawania roboty.");
+        }
+      })
+      .catch((err) => {
+        console.error("Błąd w handleSubmit:", err.message);
+        setError("Nie udało się połączyć z serwerem. Szczegóły: " + err.message);
+      });
+  };
+
   const handleDelete = (id_roboty) => {
     if (!window.confirm("Czy na pewno chcesz usunąć tę robotę?")) return;
 
-    console.log(`Wysyłanie żądania usunięcia roboty o ID: ${id_roboty}`);
+    console.log(`Usuwanie roboty o ID: ${id_roboty}`);
     fetch("http://localhost/deleteWork.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -69,43 +157,15 @@ function SubSuperAdminPageWorkManager() {
       });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!nazwa || !inwestor || !dataKol) {
-      setError("Proszę wypełnić wszystkie wymagane pola.");
-      return;
-    }
-
-    const workData = { nazwa, inwestor, data_kol: dataKol, data_zak: dataZak };
-
-    fetch("http://localhost/addWork.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(workData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Błąd sieci: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.status === "success") {
-          setSuccessMessage("Robota została dodana pomyślnie.");
-          setNazwa("");
-          setInwestor("");
-          setDataKol("");
-          setDataZak("");
-          fetchWorks(); // Odświeżenie listy robót
-        } else {
-          setError(data.message || "Wystąpił błąd podczas dodawania roboty.");
-        }
-      })
-      .catch((err) => {
-        console.error("Błąd w handleSubmit:", err.message);
-        setError("Nie udało się połączyć z serwerem. Szczegóły: " + err.message);
-      });
+  const resetForm = () => {
+    console.log("Resetowanie formularza...");
+    setEditingId(null);
+    setNazwa("");
+    setInwestor("");
+    setDataKol("");
+    setDataZak("");
+    setError("");
+    setSuccessMessage("");
   };
 
   return (
@@ -114,8 +174,8 @@ function SubSuperAdminPageWorkManager() {
       {error && <p className="error">{error}</p>}
       {successMessage && <p className="success">{successMessage}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <h2>Dodaj Robotę</h2>
+      <form onSubmit={editingId ? handleUpdate : handleSubmit}>
+        <h2>{editingId ? "Edytuj Robotę" : "Dodaj Robotę"}</h2>
         <div>
           <label>Nazwa roboty:</label>
           <input
@@ -150,7 +210,8 @@ function SubSuperAdminPageWorkManager() {
             onChange={(e) => setDataZak(e.target.value)}
           />
         </div>
-        <button type="submit">Dodaj</button>
+        <button type="submit">{editingId ? "Zaktualizuj" : "Dodaj"}</button>
+        {editingId && <button onClick={resetForm}>Anuluj</button>}
       </form>
 
       <h2>Lista Robót</h2>
@@ -159,8 +220,9 @@ function SubSuperAdminPageWorkManager() {
           {works.map((work) => (
             <li key={work.id_roboty}>
               <p>
-                <strong>{work.nazwa}</strong> - {work.inwestor} (Kolaudacja: {work.data_kol}, Zakończenie: {work.data_zak})
+                <strong>{work.nazwa}</strong> - {work.inwestor} (Kolaudacja: {work.data_kol}, Zakończenie: {work.data_zak || "Brak"})
               </p>
+              <button onClick={() => handleEdit(work)}>Edytuj</button>
               <button onClick={() => handleDelete(work.id_roboty)}>Usuń</button>
             </li>
           ))}

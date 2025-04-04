@@ -26,10 +26,10 @@ if (!$id) {
 }
 
 // Dane połączenia z bazą danych
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reportmanager";
+$servername = "mysql.mikr.us"; // Zmienione na zdalny serwer
+$username = "marek136";        // Twój login do bazy
+$password = "EFDC_168983";     // Twoje hasło do bazy
+$dbname = "db_marek136";       // Nazwa bazy danych
 
 // Połączenie z bazą danych
 $conn = new mysqli($servername, $username, $password, $dbname);

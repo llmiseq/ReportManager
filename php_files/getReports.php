@@ -5,8 +5,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Ustawienia nagłówków CORS
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Dostosuj do adresu frontendu
-header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
@@ -21,7 +21,7 @@ $log .= "Czas: " . date("Y-m-d H:i:s") . "\n";
 
 try {
     // Połączenie z bazą danych
-    $conn = new mysqli("localhost", "root", "", "reportmanager");
+    $conn = new mysqli("mysql.mikr.us", "marek136", "EFDC_168983", "db_marek136");
 
     if ($conn->connect_error) {
         throw new Exception("Błąd połączenia z bazą danych: " . $conn->connect_error);

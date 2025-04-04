@@ -1,0 +1,73 @@
+.test {
+    height: 85vh; /* Zwiększona wysokość dla widoku */
+    overflow-y: auto; /* Przewijanie w pionie */
+    width: 68vw;
+  }
+  
+  .robot-container {
+    border: 1px solid #ccc;
+    padding: 15px; /* Więcej przestrzeni wewnętrznej */
+    margin: 20px auto; /* Centrowanie kontenera */
+    border-radius: 8px;
+    background-color: #fff;
+    width: 90%; /* Szerokość prawie pełnoekranowa */
+    max-width: 1400px; /* Maksymalna szerokość na dużych ekranach */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Estetyczne cienie */
+  }
+  
+  h3 {
+    font-size: 1.5em; /* Większa czcionka dla tytułów */
+    margin-bottom: 10px;
+    word-wrap: break-word; /* Dostosowanie dla długich tekstów */
+  }
+  
+  h4 {
+    font-size: 1.3em;
+    margin-bottom: 8px;
+  }
+  
+  table {
+    width: 100%; /* Tabela wypełnia całą szerokość kontenera */
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th, table td {
+    border: 1px solid #ddd; /* Delikatne obramowanie komórek */
+    padding: 10px; /* Większa przestrzeń w komórkach */
+    text-align: left;
+    word-wrap: break-word; /* Złamanie długich tekstów */
+  }
+  
+  table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    font-size: 1.1em; /* Większe nagłówki tabel */
+  }
+  
+  table td {
+    font-size: 1em; /* Uniwersalna czcionka */
+    line-height: 1.5;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Neutralne tło */
+  }
+  
+  .content-display {
+    padding: 20px;
+    max-width: 1400px; /* Dopasowanie do dużych ekranów */
+    margin: 0 auto;
+  }
+  
+  .error {
+    color: red;
+    font-size: 1.2em;
+    margin-top: 20px;
+  }
+  

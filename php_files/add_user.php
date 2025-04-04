@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
@@ -12,10 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reportmanager";
+// Zmiana danych połączenia na zdalny serwer MySQL
+$servername = "mysql.mikr.us";
+$username = "marek136";
+$password = "EFDC_168983";
+$dbname = "db_marek136";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {

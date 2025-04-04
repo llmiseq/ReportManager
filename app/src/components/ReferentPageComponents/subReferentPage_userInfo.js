@@ -15,7 +15,7 @@ function SubUserPageUserInfo() {
       }
 
       fetch(`http://localhost/getUserInfo.php?sessionId=${sessionId}`, {
-        method: 'GET',
+        method: 'GEPOSTT',
         headers: { 'Content-Type': 'application/json' },
       })
         .then((response) => response.json())
